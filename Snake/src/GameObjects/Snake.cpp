@@ -34,9 +34,14 @@ void Snake::Update(float dt) {
 
 	if (head->getPosition().x > 1280 + head->getRadius()) {
 		head->setPosition(-head->getRadius(), head->getPosition().y);
-	}
-	else if (head->getPosition().x < -head->getRadius()) {
+	} else if (head->getPosition().x < -head->getRadius()) {
 		head->setPosition(1280 + head->getRadius(), head->getPosition().y);
+	}
+
+	if (head->getPosition().y > 720 + head->getRadius()) {
+		head->setPosition(head->getPosition().x, -head->getRadius());
+	} else if (head->getPosition().y < -head->getRadius()) {
+		head->setPosition(head->getPosition().x, 720 + head->getRadius());
 	}
 
 	// Get input
@@ -61,26 +66,34 @@ void Snake::Update(float dt) {
 	}
 
 	for (int i = m_SnakeBody.size() - 1; i > 0; i--) {
-		sf::Vector2f	currentPosition		= m_SnakeBody[i]->getPosition();
+		sf::CircleShape* bodyPart = m_SnakeBody[i];
+
+		sf::Vector2f	currentPosition		= bodyPart->getPosition();
 		sf::Vector2f	targetPosition		= m_SnakeBody[i - 1]->getPosition();
 		sf::Vector2f	distance			= targetPosition - currentPosition;
 		float			mag					= sqrt(distance.x * distance.x + distance.y * distance.y);
 
+
 		if (mag > 720 / 2) {
-			m_SnakeBody[i]->move(sin(M_PI * m_SnakeBody[i]->getRotation() / 180.0f) * m_MoveSpeed * dt,
-								 -1 * cos(M_PI * m_SnakeBody[i]->getRotation() / 180.0f) * m_MoveSpeed * dt);
+			bodyPart->move(sin(M_PI * bodyPart->getRotation() / 180.0f) * m_MoveSpeed * dt,
+								 -1 * cos(M_PI * bodyPart->getRotation() / 180.0f) * m_MoveSpeed * dt);
 
-			if (m_SnakeBody[i]->getPosition().x > 1280 + head->getRadius()) {
-				m_SnakeBody[i]->setPosition(0, m_SnakeBody[i]->getPosition().y);
-			} else if (m_SnakeBody[i]->getPosition().x < 0) {
-				m_SnakeBody[i]->setPosition(1280, m_SnakeBody[i - 1]->getPosition().y);
+			if (bodyPart->getPosition().x > 1280 + bodyPart->getRadius()) {
+				bodyPart->setPosition(-head->getRadius(), bodyPart->getPosition().y);
+			} else if (bodyPart->getPosition().x < -head->getRadius()) {
+				bodyPart->setPosition(1280 + bodyPart->getRadius(), bodyPart->getPosition().y);
 			}
+
+			if (bodyPart->getPosition().y > 720 + bodyPart->getRadius()) {
+				bodyPart->setPosition(bodyPart->getPosition().x, -bodyPart->getRadius());
+			} else if (bodyPart->getPosition().y < -bodyPart->getRadius()) {
+				bodyPart->setPosition(bodyPart->getPosition().x, 720 + bodyPart->getRadius());
+			}
+
 		} else {
-			m_SnakeBody[i]->move(distance * mag * dt);
-			m_SnakeBody[i]->setRotation(m_SnakeBody[i - 1]->getRotation());
+			bodyPart->move(distance * mag * dt);
+			bodyPart->setRotation(m_SnakeBody[i - 1]->getRotation());
 		}
-
-
 	}
 
 	head->move(sin(M_PI * head->getRotation() / 180.0f) * m_MoveSpeed * dt, -1 * cos(M_PI * head->getRotation() / 180.0f) * m_MoveSpeed * dt);

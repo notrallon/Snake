@@ -124,6 +124,9 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameObjects\Fruit.cpp" />
     <ClCompile Include="src\GameObjects\Snake.cpp" />
+    <ClCompile Include="src\GameObjects\SnakeBodyPart.cpp" />
+    <ClCompile Include="src\GameObjects\SnakeHead.cpp" />
+    <ClCompile Include="src\GameObjects\SnakePart.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +134,9 @@
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameObjects\Fruit.h" />
     <ClInclude Include="src\GameObjects\Snake.h" />
+    <ClInclude Include="src\GameObjects\SnakeBodyPart.h" />
+    <ClInclude Include="src\GameObjects\SnakeHead.h" />
+    <ClInclude Include="src\GameObjects\SnakePart.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,16 +1,13 @@
 #pragma once
 
-#include "../Common.h"
-
-#define MAX_MOVE_SPEED 255
-#define MIN_MOVE_SPEED 0
+#include "SnakePart.h"
 
 class Snake {
 public:
 									Snake();
 									~Snake();
 
-	void							Update(float dt);
+	void							Update(const float& dt);
 	void							Draw(sf::RenderWindow& window);
 	bool							CheckCollision(sf::FloatRect other) const;
 
@@ -20,5 +17,6 @@ private:
 	float							m_RotateSpeed;
 	float							m_MoveSpeed;
 
-	std::vector<sf::CircleShape*>	m_SnakeBody;
+	//std::vector<sf::CircleShape*>	m_SnakeBody;
+	std::vector<SnakePart*>			m_SnakeBody;
 };

@@ -10,14 +10,15 @@ Game::Game(): m_Running(true)
 }
 
 Game::~Game() {
+	delete m_Instance;
 }
 
 void Game::Init() {
 	srand(time(nullptr));
 	m_Restart = false;
-	m_Snake = new Snake();
+	m_Snake = new Snake(sf::Vector2f(m_Window.getSize().x / 2, m_Window.getSize().y / 2));
 
-	m_Fruit.SetPosition(sf::Vector2f(std::rand() % m_Window.getSize().x, std::rand() % m_Window.getSize().y));
+	m_Fruit.SetRandomPosition(m_Window.getSize());
 }
 
 void Game::Restart() {
@@ -41,14 +42,14 @@ void Game::HandleEvents() {
 	}
 }
 
-
 void Game::Update() {
+	RestartClock();
 	float dt = m_ElapsedTime.asSeconds();
 	m_Snake->Update(dt);
 
 	if (m_Snake->CheckCollision(m_Fruit.GetGlobalBounds())) {
 		m_Snake->Grow();
-		m_Fruit.SetPosition(sf::Vector2f(std::rand() % m_Window.getSize().x, std::rand() % m_Window.getSize().y));
+		m_Fruit.SetRandomPosition(m_Window.getSize());
 	}
 }
 
@@ -57,8 +58,6 @@ void Game::LateUpdate() {
 		delete m_Snake;
 		Init();
 	}
-
-	RestartClock();
 }
 
 void Game::Draw() {

@@ -5,9 +5,8 @@
 class SnakeBodyPart : public SnakePart {
 public:
 	SnakeBodyPart(SnakePart* target);
-	~SnakeBodyPart();
 
-	virtual void Update(const float& dt);
+	void Update(const float& dt) override;
 
 private:
 	SnakePart* m_TargetPart;

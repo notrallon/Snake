@@ -4,8 +4,7 @@
 
 class SnakeHead : public SnakePart {
 public:
-	SnakeHead();
-	~SnakeHead();
+			SnakeHead(const sf::Vector2f& pos);
 
-	virtual void Update(const float& dt);
+	void	Update(const float& dt) override;
 };

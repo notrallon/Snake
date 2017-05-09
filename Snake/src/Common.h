@@ -9,10 +9,9 @@
 
 #include <SFML/Graphics.hpp>
 
-#define RADIANS M_PI / 180.0f
-#define MAX_MOVE_SPEED 2550
-#define MIN_MOVE_SPEED 0
-#define ROTATE_SPEED 360
+#define MAX_MOVE_SPEED		400
+#define MIN_MOVE_SPEED		0
+#define ROTATE_SPEED		360
 
 typedef uint8_t		uint8;
 typedef uint16_t	uint16;
@@ -23,5 +22,3 @@ typedef int8_t		int8;
 typedef int16_t		int16;
 typedef int32_t		int32;
 typedef int64_t		int64;
-
-enum collisionLayer_t { NONE, SNAKE, FRUIT, OTHER };

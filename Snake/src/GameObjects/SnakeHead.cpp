@@ -1,53 +1,52 @@
 #include "SnakeHead.h"
+#include "../Game.h"
 
-SnakeHead::SnakeHead() : SnakePart() {
-	//m_SnakePart = new sf::CircleShape();
-	//m_SnakePart->setRadius(8);
+SnakeHead::SnakeHead(const sf::Vector2f& pos) {
 	m_SnakePart->setFillColor(sf::Color::Yellow);
-	m_SnakePart->setPosition(420, 420);
-}
-
-SnakeHead::~SnakeHead() {
-
+	m_SnakePart->setPosition(pos);
 }
 
 void SnakeHead::Update(const float& dt) {
-	if (m_SnakePart->getPosition().x > 1280 + m_SnakePart->getRadius()) {
-		m_SnakePart->setPosition(-m_SnakePart->getRadius(), m_SnakePart->getPosition().y);
-	}
-	else if (m_SnakePart->getPosition().x < -m_SnakePart->getRadius()) {
-		m_SnakePart->setPosition(1280 + m_SnakePart->getRadius(), m_SnakePart->getPosition().y);
+	int32 maxSnakePosX = Game::Instance()->GetWindow().getSize().x + m_SnakePart->getRadius();
+	int32 minSnakePosX = -m_SnakePart->getRadius();
+	int32 maxSnakePosY = Game::Instance()->GetWindow().getSize().y + m_SnakePart->getRadius();
+	int32 minSnakePosY = -m_SnakePart->getRadius();
+
+	// Wrap the snake around the x position
+	if (m_SnakePart->getPosition().x > maxSnakePosX) {
+		m_SnakePart->setPosition(minSnakePosX, m_SnakePart->getPosition().y);
+	} else if (m_SnakePart->getPosition().x < minSnakePosX) {
+		m_SnakePart->setPosition(maxSnakePosX, m_SnakePart->getPosition().y);
 	}
 
-	if (m_SnakePart->getPosition().y > 720 + m_SnakePart->getRadius()) {
-		m_SnakePart->setPosition(m_SnakePart->getPosition().x, -m_SnakePart->getRadius());
-	}
-	else if (m_SnakePart->getPosition().y < -m_SnakePart->getRadius()) {
-		m_SnakePart->setPosition(m_SnakePart->getPosition().x, 720 + m_SnakePart->getRadius());
+	// Wrap the snake around the y position
+	if (m_SnakePart->getPosition().y > maxSnakePosY) {
+		m_SnakePart->setPosition(m_SnakePart->getPosition().x, minSnakePosY);
+	} else if (m_SnakePart->getPosition().y < minSnakePosY) {
+		m_SnakePart->setPosition(m_SnakePart->getPosition().x, maxSnakePosY);
 	}
 
-	// Get input
+	// Acceleration / deceleration
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		m_MoveSpeed += 250 * dt;
+		m_MoveSpeed += m_Acceleration * dt;
 
 		if (m_MoveSpeed > MAX_MOVE_SPEED) {
 			m_MoveSpeed = MAX_MOVE_SPEED;
 		}
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		m_MoveSpeed -= 250 * dt;
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		m_MoveSpeed -= m_Acceleration * dt;
 
-		if (m_MoveSpeed < MIN_MOVE_SPEED) {
-			m_MoveSpeed = MIN_MOVE_SPEED;
+		if (m_MoveSpeed < -MAX_MOVE_SPEED) {
+			m_MoveSpeed = -MAX_MOVE_SPEED;
 		}
 	}
 
+	// Rotate to turn
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		m_SnakePart->setRotation(m_SnakePart->getRotation() - ROTATE_SPEED * dt);
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		m_SnakePart->setRotation(m_SnakePart->getRotation() + ROTATE_SPEED * dt);
 	}
 
-	m_SnakePart->move(sin(M_PI * m_SnakePart->getRotation() / 180.0f) * m_MoveSpeed * dt, -1 * cos(M_PI * m_SnakePart->getRotation() / 180.0f) * m_MoveSpeed * dt);
+	m_SnakePart->move(MoveForward(dt));
 }

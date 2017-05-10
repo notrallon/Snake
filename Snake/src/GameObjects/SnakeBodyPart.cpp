@@ -7,10 +7,10 @@ SnakeBodyPart::SnakeBodyPart(SnakePart* target) : m_TargetPart(target) {
 }
 
 void SnakeBodyPart::Update(const float& dt) {
-	int32 maxSnakePosX = Game::Instance()->GetWindow().getSize().x + m_SnakePart->getRadius();
-	int32 minSnakePosX = -m_SnakePart->getRadius();
-	int32 maxSnakePosY = Game::Instance()->GetWindow().getSize().y + m_SnakePart->getRadius();
-	int32 minSnakePosY = -m_SnakePart->getRadius();
+	float maxSnakePosX = Game::Instance()->GetWindow().getSize().x + m_SnakePart->getRadius();
+	float minSnakePosX = -m_SnakePart->getRadius();
+	float maxSnakePosY = Game::Instance()->GetWindow().getSize().y + m_SnakePart->getRadius();
+	float minSnakePosY = -m_SnakePart->getRadius();
 
 	sf::Vector2f	currentPosition = m_SnakePart->getPosition();
 	sf::Vector2f	targetPosition = m_TargetPart->GetPosition();

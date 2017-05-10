@@ -27,7 +27,7 @@ void Snake::Update(const float& dt) {
 	}
 
 	// We check for collisions after we've all snakeparts positions
-	for (int32 i = 2; i < m_SnakeBody.size(); i++) {
+	for (uint32 i = 2; i < m_SnakeBody.size(); i++) {
 		SnakePart* prevPart = m_SnakeBody[i - 1];
 		SnakePart* currentPart = m_SnakeBody[i];
 
